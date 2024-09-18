@@ -1,5 +1,4 @@
 import * as cdk from 'aws-cdk-lib';
-import { Role } from 'aws-cdk-lib/aws-iam';
 import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';

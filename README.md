@@ -1,14 +1,19 @@
-# Welcome to your CDK TypeScript project
+# SSTS Discord Bot
+The handy bot that logs our tag rounds and more!
 
-This is a blank project for CDK development with TypeScript.
+### System requirements
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+1. Node.js 20
+2. https://pnpm.io/installation
+3. Docker
 
-## Useful commands
+### Repo setup
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+1. Clone
+2. pnpm install
+
+### Contributing
+
+The majority of the application code that runs is in `lib/lambda`. If new handlers are added there, they also need to be added to `lib/SstsDiscordBotStack.Function.ts`.
+
+The rest of `lib` is the AWS infrastructure that the discord app runs on and can be updated as needed to accomodate the needs of the application.
