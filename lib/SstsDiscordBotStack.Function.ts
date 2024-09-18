@@ -1,10 +1,10 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { verifyKey, InteractionType, InteractionResponseType } from 'discord-interactions';
-import { zen } from './lambda/zen.js';
 import { pong, getSecretValue, apiResponse } from './lambda/utils.js';
+import { zen } from './lambda/zen.js';
+import { logMatch } from './lambda/logMatch.js'
 
 export const handler = async function (event: APIGatewayEvent) {
-    console.log(event);
     const { body } = event;
     if (!body) {
         console.error('No event body to process.');
@@ -33,6 +33,8 @@ export const handler = async function (event: APIGatewayEvent) {
     switch (command) {
         case 'zen':
             return zen();
+        case 'log_a_match':
+            return logMatch(jsonBody.data);
     }
     return apiResponse(200, {
         "type": InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

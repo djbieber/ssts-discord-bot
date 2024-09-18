@@ -1,5 +1,12 @@
 {
     "name":         "log_a_match",
     "type":         1,
-    "description":  "After you play a tag match, use this command to log the results."
+    "description":  "After you play a tag match, use this command to log the results.",
+    "options":      [
+        {
+            "name": "results",
+            "type": 3,
+            "description": "What happened?"
+        }
+    ]
 }
