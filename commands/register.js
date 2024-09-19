@@ -15,8 +15,8 @@ if (!botToken || !appID || !guildId){
 }
 
 const commands = [];
-// Grab all the command folders from the commands directory
-const foldersPath = path.join(__dirname, 'commands');
+// Grab all the command folders from the command definitions directory
+const foldersPath = path.join(__dirname, 'definitions');
 const commandFiles = fs.readdirSync(foldersPath);
 for (const file of commandFiles) {
 	const filePath = path.join(foldersPath, file);

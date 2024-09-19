@@ -23,7 +23,7 @@ export async function getSecretValue(secretId: string, key?: string) {
     throw Error('Unable to get required secret value');
 }
 
-export function apiResponse(statusCode: number, body: object) {
+export function apiResponse(statusCode: number, body?: object) {
     // Add response schema required by API Gateway
     const response = {
         statusCode,

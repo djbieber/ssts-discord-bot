@@ -34,7 +34,7 @@ export const handler = async function (event: APIGatewayEvent) {
         case 'zen':
             return zen();
         case 'log_a_match':
-            return logMatch(jsonBody.data);
+            return logMatch(jsonBody.data, timestamp);
     }
     return apiResponse(200, {
         "type": InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

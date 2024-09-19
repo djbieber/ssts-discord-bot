@@ -28,6 +28,7 @@
     "typescript-eslint": "^8.5.0"
   },
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.654.0",
     "@aws-sdk/client-secrets-manager": "^3.651.1",
     "aws-cdk-lib": "2.128.0",
     "constructs": "^10.0.0",

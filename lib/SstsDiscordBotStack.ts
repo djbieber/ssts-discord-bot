@@ -1,10 +1,12 @@
+import { Construct } from 'constructs';
 import * as cdk from 'aws-cdk-lib';
 import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
-import { Construct } from 'constructs';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { CodeSigningConfig } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Platform, SigningProfile } from 'aws-cdk-lib/aws-signer';
+import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 export class SstsDiscordBotStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -28,6 +30,10 @@ export class SstsDiscordBotStack extends cdk.Stack {
       codeSigningConfig
     });
     botSecret.grantRead(backend);
+    backend.role?.addToPrincipalPolicy(new PolicyStatement({
+      resources: ['arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0'],
+      actions: ['bedrock:InvokeModel']
+    }));
 
     const api = new LambdaRestApi(this, 'SstsBotApi', {
       handler: backend,
