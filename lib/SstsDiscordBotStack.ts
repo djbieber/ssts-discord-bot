@@ -6,11 +6,15 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { CodeSigningConfig } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Platform, SigningProfile } from 'aws-cdk-lib/aws-signer';
-import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { ITableV2 } from 'aws-cdk-lib/aws-dynamodb';
+
+interface SstsDiscordBotStackOptions extends cdk.StackProps {
+  table: ITableV2;
+}
 
 export class SstsDiscordBotStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string, opts: SstsDiscordBotStackOptions) {
+    super(scope, id, opts);
 
     const botSecret = Secret.fromSecretNameV2(this, 'BotSecret', 'discord/ssts/zen-bot');
 
@@ -30,12 +34,16 @@ export class SstsDiscordBotStack extends cdk.Stack {
       codeSigningConfig
     });
     botSecret.grantRead(backend);
-    backend.role?.addToPrincipalPolicy(new PolicyStatement({
-      resources: ['arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0'],
+    opts.table.grantReadWriteData(backend);
+    backend.addToRolePolicy(new PolicyStatement({
+      resources: [
+        'arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-haiku-20240307-v1:0',
+        'arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0'
+      ],
       actions: ['bedrock:InvokeModel']
     }));
 
-    const api = new LambdaRestApi(this, 'SstsBotApi', {
+    new LambdaRestApi(this, 'SstsBotApi', {
       handler: backend,
       cloudWatchRole: true
     });

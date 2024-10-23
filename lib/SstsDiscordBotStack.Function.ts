@@ -28,13 +28,13 @@ export const handler = async function (event: APIGatewayEvent) {
         console.log('Handling Ping event, returning Pong');
         return apiResponse(200, pong);
     }
-    var command = jsonBody.data?.name
+    const command = jsonBody.data?.name
     console.log(`Command: ${command}`);
     switch (command) {
         case 'zen':
             return zen();
         case 'log_a_match':
-            return logMatch(jsonBody.data, timestamp);
+            return logMatch(jsonBody.data, +timestamp);
     }
     return apiResponse(200, {
         "type": InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

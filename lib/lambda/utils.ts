@@ -16,7 +16,7 @@ export async function getSecretValue(secretId: string, key?: string) {
             }
             return value;
         }
-        return response.SecretString;
+        return JSON.parse(response.SecretString);
     }
     console.log('Response did not contain secret string:');
     console.log(response);
